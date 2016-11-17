@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <h4> Baseball Players Height, Handedness and Performance</h3>
+    <meta charset="utf-8">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+    
+    <style>
+        h4 {
+          text-align: Left;
+          color: #000000;
+          font-family: "sans-serif";
+        }
+        #chartcontainer {
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+          margin-top:5%;}
+
+        #myButtons { position: fixed;
+           bottom: 20%;
+           left: 10%;}
+
+        #btn, #btn1{  padding: 0px;
+           margin: 0px;
+           background:#599bb3;
+           color:#ffffff;
+           height: 20px; 
+           width: 200px;
+            }
+
+    </style>
+
+  </head>
+  <body>
+  <div id="myButtons" style="text-align:right;">
+        <button id='btn'>
+            Batting Average
+        </button>
+        <button id='btn1'>
+            Home Run Average
+        </button>
+    </div>
+    <div id="chartcontainer"></div>
+    
+    <script type="text/javascript">
+
+      function draw(data){
+
+        var svg1 = dimple.newSvg("#chartcontainer", 590, 400);
+        var chart1 = new dimple.chart(svg1, data);
+        var x = chart1.addCategoryAxis("x", "height");
+        x.title = "Player Height in inches";
+        var y = chart1.addMeasureAxis("y", "avg");
+        y.title = "Batting average"; 
+        y.tickFormat ='.s';
+        chart1.addSeries('handedness', dimple.plot.line)
+                .aggregate = dimple.aggregateMethod.avg;
+        chart1.addSeries('handedness', dimple.plot.scatter)
+               .aggregate = dimple.aggregateMethod.avg;
+        chart1.addLegend(450, 30, "10%", "30%", "right"); 
+        chart1.draw();
+        svg1.append("text").attr("x", (svg1[0][0].clientWidth / 2)).attr("y", 14).attr("text-anchor", "middle").style("font-family", "sans-serif").style("font-size", "13px").style("font-weight", "bold").style("color", "#0000ff").text("Batting Average vs Player Height");  
+
+
+        d3.select("#btn").on("click", function() {
+            d3.select("svg").remove();
+            var svg2 = dimple.newSvg("#chartcontainer", 590, 400);
+            var chart2 = new dimple.chart(svg2, data);
+            var x = chart2.addCategoryAxis("x", "height");
+            x.title = "Player Height in inches";
+            var y = chart2.addMeasureAxis("y", "avg");
+            y.tickFormat ='.s'
+            y.title = "Batting average"; 
+            chart2.addSeries('handedness', dimple.plot.line)
+                .aggregate = dimple.aggregateMethod.avg;
+            chart2.addSeries('handedness', dimple.plot.scatter)
+               .aggregate = dimple.aggregateMethod.avg;
+            chart2.addLegend(450, 30, "10%", "30%", "right"); 
+            chart2.draw(); 
+            svg2.append("text").attr("x", (svg2[0][0].clientWidth / 2)).attr("y", 14).attr("text-anchor", "middle").style("font-family", "sans-serif").style("font-size", "13px").style("font-weight", "bold").style("color", "#ffffff").text("Batting Average vs Player Height");  
+
+       });
+
+        d3.select("#btn1").on("click", function() {
+            d3.select("svg").remove();
+
+            var svg3 = dimple.newSvg("#chartcontainer", 590, 400);
+            var chart3 = new dimple.chart(svg3, data);
+            var x = chart3.addCategoryAxis("x", "height");
+            x.title = "Player Height in inches";
+            var y = chart3.addMeasureAxis("y", "HR");
+            y.tickFormat ='.s';
+            y.overrideMax = 160;
+            y.title = "Average Home runs";
+        
+            chart3.addSeries('handedness', dimple.plot.line)
+                .aggregate = dimple.aggregateMethod.avg;
+            chart3.addSeries('handedness', dimple.plot.scatter)
+               .aggregate = dimple.aggregateMethod.avg;
+            chart3.addLegend(450, 30, "10%", "30%", "right");
+            chart3.draw(); 
+            svg3.append("text").attr("x", (svg3[0][0].clientWidth / 2)).attr("y", 14).attr("text-anchor", "middle").style("font-family", "sans-serif").style("font-size", "13px").style("font-weight", "bold").style("color", "#ffffff").text("Home Run Average vs Player Height"); 
+      }); 
+      };
+      </script>
+      </body>
+      </head>
+
+<body>
+  <script type="text/javascript">
+      d3.csv("baseball_data.csv", draw)
+  </script>
+  
+</body>
+</html>
