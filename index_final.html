@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <h4> Baseball Players Height, Handedness and Performance</h3>
+    <meta charset="utf-8">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+    
+    <style>
+        h4 {
+          text-align: Left;
+          color: #000000;
+          font-family: "sans-serif";
+        }
+       
+        #chartcontainer {
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+          margin-top:5%;}
+
+        #myButtons { position: fixed;
+           bottom: 20%;
+           left: 10%;}
+
+        #btn, #btn1{  padding: 0px;
+           margin: 0px;
+           background:#599bb3;
+           color:#ffffff;
+           height: 20px; 
+           width: 200px;
+            }
+
+    </style>
+
+  </head>
+  <body>
+  <div id="myButtons" style="text-align:right;">
+        <button id='btn'>
+            Handedness
+        </button>
+        <button id='btn1'>
+            Height
+        </button>
+    </div>
+    <div id="chartcontainer"></div>
+    <script type="text/javascript">
+
+      function draw(data){
+
+        // chart1
+        var svg1 = dimple.newSvg("#chartcontainer", 590, 400);
+        var chart1 = new dimple.chart(svg1, data);
+        
+        // adding axis to chart1
+        var x = chart1.addCategoryAxis("x", "handedness");
+        x.title = "Player Handedness";
+        var y1 = chart1.addMeasureAxis("y", "HR");
+        y1.title = "Homerun Average"; 
+        var y2 = chart1.addMeasureAxis("y", "avg");
+        y2.title = "Batting average"; 
+        y2.tickFormat =',.2f';
+       
+        // bar and line plot
+        chart1.addSeries("Homerun Average", dimple.plot.bar, [x,y1])
+                .aggregate = dimple.aggregateMethod.avg;
+        chart1.addSeries("Batting Average", dimple.plot.line, [x,y2])
+                .aggregate = dimple.aggregateMethod.avg;
+        chart1.addSeries("Batting Average", dimple.plot.bubble,[x,y2])
+                .aggregate = dimple.aggregateMethod.avg;
+        chart1.assignColor("Batting Average", "red") ;
+        chart1.addLegend(450, 10, "10%", "30%", "right"); 
+        chart1.draw();
+        
+        // chart1 title
+        svg1.append("text")
+            .attr("x", (svg1[0][0].clientWidth / 2))
+            .attr("y", 14)
+            .attr("text-anchor", "middle")
+            .style("font-family", "sans-serif")
+            .style("font-size", "13px")
+            .style("font-weight", "bold")
+            .style("color", "#0000ff")
+            .text("Left handed players have the highest \n Homerun average and batting average");  
+
+        // Function to select chart2 on button click
+        d3.select("#btn1").on("click", function() {
+            d3.select("svg").remove();
+            var svg2 = dimple.newSvg("#chartcontainer", 590, 400);
+            
+            //chart2
+            var chart2 = new dimple.chart(svg2, data);
+            var x = chart2.addCategoryAxis("x", "height");
+            x.title = "Player Height in inches";
+            var y = chart2.addMeasureAxis("y", "avg");
+            y.tickFormat = ',.2f'; 
+            y.title = "Batting average"; 
+
+            chart2.addSeries("Batting Average", dimple.plot.line)
+                  .aggregate = dimple.aggregateMethod.avg;
+            chart2.addSeries("Batting Average", dimple.plot.scatter)
+                  .aggregate = dimple.aggregateMethod.avg;
+            chart2.assignColor("Batting Average","red")
+            chart2.draw(); 
+            
+            // chart2 title
+            svg2.append("text")
+                .attr("x", (svg2[0][0].clientWidth / 2))
+                .attr("y", 14).attr("text-anchor", "middle")
+                .style("font-family", "sans-serif")
+                .style("font-size", "13px")
+                .style("font-weight", "bold")
+                .style("color", "#ffffff")
+                .text("Shorter players have higher batting average"); 
+       });
+
+        // Function to select chart3 on button click
+        d3.select("#btn").on("click", function() {
+            d3.select("svg").remove();
+
+        //chart3
+        var svg3 = dimple.newSvg("#chartcontainer", 590, 400);
+        var chart3 = new dimple.chart(svg3, data);
+      
+        // adding axis to chart3
+        var x = chart3.addCategoryAxis("x", "handedness");
+        x.title = "Player Handedness";
+        var y1 = chart3.addMeasureAxis("y", "HR");
+        y1.title = "Homerun Average"; 
+        var y2 = chart3.addMeasureAxis("y", "avg");
+        y2.title = "Batting average"; 
+        y2.tickFormat =',.2f';
+       
+        // bar and line plot
+        chart3.addSeries("Homerun Average", dimple.plot.bar, [x,y1])
+                .aggregate = dimple.aggregateMethod.avg;
+        chart3.addSeries("Batting Average", dimple.plot.line, [x,y2])
+                .aggregate = dimple.aggregateMethod.avg;
+        chart3.addSeries("Batting Average", dimple.plot.bubble, [x,y2])
+                .aggregate = dimple.aggregateMethod.avg;
+        chart3.assignColor("Batting Average", "red") ;
+        chart3.addLegend(450, 10, "10%", "30%", "right"); 
+        chart3.draw();
+            
+        //chart3 title
+        svg3.append("text")
+            .attr("x", (svg3[0][0].clientWidth / 2))
+            .attr("y", 14)
+            .attr("text-anchor", "middle")
+            .style("font-family", "sans-serif")
+            .style("font-size", "13px")
+            .style("font-weight", "bold")
+            .style("color", "#0000ff")
+            .text("Left handed players have the highest \n Homerun average and batting average");
+             
+      }); 
+      };
+      </script>
+      </body>
+      </head>
+
+<body>
+  <script type= "text/javascript">
+      d3.csv("baseball_data_2.csv", draw)
+  </script>
+  
+</body>
+</html>
