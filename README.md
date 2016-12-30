@@ -21,11 +21,11 @@ Based on the feedback from Udacity reviewer, I have changed the design to make t
 
 For handedness, I have used a bar chart to plot between handedness and homerun average and a line chart to plot between handedness and batting average. I tried using other charts like two line charts, two bar charts etc. for this plot. But I think using a bar chart and a line chart here was visually more appealing and clearly highlighted that left handed batsmen have better batting/homerun averages.
 
-![](https://raw.githubusercontent.com/swethag04/Data-Visualization/blob/master/Handedness.jpg)
+![](https://github.com/swethag04/Data-Visualization/blob/master/Handedness.jpg)
 
 For height, I used a line chart between height and batting average. I did not plot height and homerun average since there was no clear trend.
 
-![](https://raw.githubusercontent.com/swethag04/Data-Visualization/blob/master/height.jpg)
+![](https://github.com/swethag04/Data-Visualization/blob/master/Height.jpg)
 
 ### Feedback
 
